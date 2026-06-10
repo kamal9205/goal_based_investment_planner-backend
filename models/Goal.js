@@ -5,43 +5,50 @@ const goalSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
 
     goalName: {
       type: String,
-      required: true
+      required: true,
     },
 
     goalAmount: {
       type: Number,
-      required: true
+      required: true,
     },
 
     currentAmount: {
       type: Number,
-      default: 0
+      default: 0,
+    },
+
+    monthlyInvestment: {
+      type: Number,
+      required: true,
+      default: 0,
     },
 
     targetDate: {
       type: Date,
-      required: true
+      required: true,
     },
 
     priority: {
       type: String,
-      enum: ["low", "medium", "high"]
+      enum: ["low", "medium", "high"],
+      default: "medium",
     },
 
     status: {
       type: String,
-      default: "active"
-    }
+      enum: ["active", "completed", "paused"],
+      default: "active",
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-module.exports =
-  mongoose.model("Goal", goalSchema);
+module.exports = mongoose.model("Goal", goalSchema);

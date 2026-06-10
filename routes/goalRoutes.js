@@ -11,11 +11,13 @@ const {
 
 const router = express.Router();
 
-router.post("/", protect, createGoal);
-router.get("/", protect, getGoals);
+router.route("/")
+        .post( protect, createGoal)
+        .get(protect, getGoals);
 
-router.get("/:id", protect, getGoalById);
-router.put("/:id", protect, updateGoal);
-router.delete("/:id", protect, deleteGoal);
+router.route("/:id")
+    .get( protect, getGoalById)
+    .put( protect, updateGoal)
+    .delete( protect, deleteGoal);
 
 module.exports = router;

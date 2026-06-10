@@ -19,11 +19,11 @@ const getDashboardSummary = async (
       0
     );
 
-  const monthlyInvestment =
+  const monthlyInvestment = 
     goals.reduce(
-      (sum, goal) =>
-        sum + goal.monthlyInvestment,
-      0
+        (sum, goal) => 
+            sum + Number(goal.monthlyInvestment || 0),
+        0
     );
 
   return {
