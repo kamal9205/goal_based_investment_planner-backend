@@ -5,6 +5,12 @@ const {
     calculateGoalTimeline,
 } = require("../services/goalService");
 
+const {
+  calculateGoalForecast,
+} = require(
+  "../services/goalForecastService"
+);
+
 const asyncHandler = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/apiError");
 const { ApiResponse } = require("../utils/apiResponse");
@@ -64,6 +70,8 @@ const getGoalById = asyncHandler(async (req, res) => {
         monthlyInvestment: goal.monthlyInvestment,
     });
 
+    const forecast = calculateGoalForecast(goal);
+
     return res.status(200).json(
         new ApiResponse(
             200,
@@ -72,6 +80,7 @@ const getGoalById = asyncHandler(async (req, res) => {
                 progress,
                 remaining,
                 timeline,
+                forecast,
             },
             "Goal fetched successfully"
         )

@@ -22,15 +22,34 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    age: {
+      type: Number,
+    }, 
 
     monthlyExpenses: {
       type: Number,
       default: 0,
     },
 
-    riskProfile: {
+    currentSavings: {
+      type: Number,
+      default: 0,
+    },
+
+    emergencyFund: {
+      type: Number,
+      default: 0,
+    },
+
+    riskAppetite: {
       type: String,
+      enum: ["low", "medium", "high"],
       default: "medium",
+    },
+
+    dependents: {
+      type: Number,
+      default: 0,
     },
   },
   {
