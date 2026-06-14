@@ -20,4 +20,10 @@ router.get(
   }
 );
 
+router.get(
+  "/analysis",
+  protect,
+  getAnalysis
+);
+
 module.exports = router;
