@@ -8,7 +8,7 @@ const {
 const {
   calculateGoalForecast,
 } = require(
-  "../services/goalForecastService"
+  "../services/goalForeCastService"
 );
 
 const asyncHandler = require("../utils/asyncHandler");
