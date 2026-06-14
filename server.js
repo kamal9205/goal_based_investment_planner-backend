@@ -33,7 +33,6 @@ app.use(
         new Error("Not allowed by CORS")
       );
     },
-    origin: true ,
     credentials: true,
   })
 );
