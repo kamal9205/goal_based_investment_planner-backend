@@ -48,6 +48,16 @@ app.use("/api/goals", goalRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
 
+// profile routes
+const profileRoutes =
+  require("./routes/profileRoutes");
+
+app.use(
+  "/api/profile",
+  profileRoutes
+);
+
+
 
 const PORT = process.env.PORT || 5000;
 
