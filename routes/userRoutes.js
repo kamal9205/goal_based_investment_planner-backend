@@ -1,23 +1,19 @@
 const express = require("express");
 const protect = require("../middleware/authMiddleware");
+const {getAnalysis} = require("../controllers/profileController");
 
 const router = express.Router();
 
-router.get("/profile", protect, (req, res) => {
-  res.json({
-    message: "Protected route accessed",
-    user: req.user,
-  });
-});
-
 router.get(
-  "/me",
+  "/profile",
   protect,
-  async (req, res) => {
-    res.status(200).json({
-      user: req.user,
-    });
-  }
+  getProfile
+);
+
+router.put(
+  "/profile",
+  protect,
+  updateProfile
 );
 
 router.get(
@@ -25,5 +21,7 @@ router.get(
   protect,
   getAnalysis
 );
+
+
 
 module.exports = router;
