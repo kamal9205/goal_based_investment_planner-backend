@@ -12,28 +12,44 @@ const { ApiError } = require("../utils/apiError");
 const { ApiResponse } = require("../utils/apiResponse");
 
 const generatePlan = asyncHandler(async (req, res) => {
+      
     const {
-        age,
-        monthlyIncome,
-        monthlyExpenses,
-        currentSavings,
         goalAmount,
         goalTimeline,
         riskProfile,
-    } = req.body;
+        } = req.body;
 
+    const age = req.user.age;
+    const monthlyIncome =
+    req.user.monthlyIncome;
+    const monthlyExpenses =
+    req.user.monthlyExpenses;
+    const currentSavings =
+    req.user.currentSavings || 0;
+
+
+        if (
+    !goalAmount ||
+    !goalTimeline ||
+    !riskProfile
+    )
+    {
+    throw new ApiError(
+        400,
+        "Goal amount, timeline and risk profile are required"
+    );
+    }
+console.log(req.user);
     if (
-        !age ||
-        !monthlyIncome ||
-        !monthlyExpenses ||
-        !goalAmount ||
-        !goalTimeline ||
-        !riskProfile
-    ) {
-        throw new ApiError(
-            400,
-            "All required fields must be provided"
-        );
+    !age ||
+    !monthlyIncome ||
+    !monthlyExpenses
+    )
+    {
+    throw new ApiError(
+        400,
+        "Please complete your profile before generating an investment plan"
+    );
     }
 
     const monthlySurplus = calculateMonthlySurplus(

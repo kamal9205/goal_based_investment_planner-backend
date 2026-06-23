@@ -52,8 +52,6 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
-app.use("/api/investment", investmentRoutes );
-
 const goalRoutes =
   require("./routes/goalRoutes");
 
@@ -73,7 +71,17 @@ app.use(
   profileRoutes
 );
 
+// investment routes
+app.use(
+  "/api/investments",
+  investmentRoutes
+);
 
+//ai advisor routes 
+const aiRoutes =
+  require("./routes/aiRoutes");
+
+app.use("/api/ai", aiRoutes);
 
 const PORT = process.env.PORT || 5000;
 
