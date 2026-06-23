@@ -1,6 +1,14 @@
 const User = require("../models/User");
 const { calculateInvestmentAnalysis } = require( "../services/investmentScoreService" );
 
+const {
+  getRecommendations
+} = require(
+  "../services/recommendationService"
+);
+
+const Goal = require("../models/Goal");
+
 const asyncHandler =
   require("../utils/asyncHandler");
 
@@ -80,8 +88,73 @@ const getAnalysis =
     }
   );
 
+  const getRecommendationsController =
+  async (req, res) => {
+    const analysis =
+      calculateInvestmentAnalysis(
+        req.user
+      );
+
+    const goals = await Goal.find({
+      userId: req.user._id,
+    });
+
+    let goalYears = 0;
+
+    if (goals.length > 0) {
+      const longestGoal =
+        Math.max(
+          ...goals.map((goal) => {
+            const years =
+              (
+                new Date(
+                  goal.targetDate
+                ) -
+                new Date()
+              ) /
+              (1000 *
+                60 *
+                60 *
+                24 *
+                365);
+
+            return years;
+          })
+        );
+
+      goalYears =
+        Math.max(
+          1,
+          Math.round(longestGoal)
+        );
+    }
+
+    const recommendations =
+      getRecommendations({
+        age: req.user.age || 30,
+
+        monthlySurplus:
+          analysis.monthlySurplus,
+
+        riskProfile:
+          req.user.riskAppetite ||
+          "medium",
+
+        goalYears,
+
+        investmentScore:
+          analysis.investmentScore,
+      });
+
+    return res.status(200).json({
+      success: true,
+      data: recommendations,
+    });
+  };
+
 module.exports = {
-  updateProfile,
   getProfile,
+  updateProfile,
   getAnalysis,
+  getRecommendationsController,
 };

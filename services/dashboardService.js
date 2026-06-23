@@ -1,11 +1,18 @@
 const Goal = require("../models/Goal");
+const {
+  calculateInvestmentAnalysis,
+} = require(
+  "./investmentScoreService"
+);
 
 const getDashboardSummary = async (
-  userId
+  user
 ) => {
   const goals = await Goal.find({
-    userId,
+    userId: user._id,
   });
+
+  const analysis = calculateInvestmentAnalysis(user);
 
   const activeGoals =
     goals.filter(
@@ -26,12 +33,22 @@ const getDashboardSummary = async (
         0
     );
 
-  return {
-    activeGoals,
-    totalGoalAmount,
-    monthlyInvestment,
-    goals,
-  };
+    return {
+      activeGoals,
+      totalGoalAmount,
+      monthlyInvestment,
+
+      monthlySurplus:
+        analysis.monthlySurplus,
+
+      investmentScore:
+        analysis.investmentScore,
+
+      riskCategory:
+        analysis.riskCategory,
+
+      goals,
+    };
 };
 
 module.exports = {
